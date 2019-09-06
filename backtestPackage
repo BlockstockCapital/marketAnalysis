@@ -826,6 +826,17 @@ class Backtest:
 
         if return_heatmap:
             return self._results, heatmap
+        
+        # scatter plot for MAs
+        df_ma = pd.DataFrame(heatmap)
+        df_ma.columns = ['Sharpe']
+        plt.scatter(x=df_ma.index.get_level_values(0), y=df_ma.index.get_level_values(1), c=df_ma['Sharpe'],
+                    cmap='viridis')
+        plt.colorbar(label='Sharpe Ratio')
+        plt.xlabel('MA_fast')
+        plt.ylabel('MA_slow')
+        plt.show()
+        
         return self._results
 
     def _mp_task(self, param_combos):
